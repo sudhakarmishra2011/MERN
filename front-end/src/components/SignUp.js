@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import {useNavigate} from 'react-router-dom'
 
 const SignUp = () =>{
@@ -7,6 +7,13 @@ const SignUp = () =>{
     const [email,setEmail] = useState("")
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+      const auth = localStorage.getItem('user')
+      if(auth){
+        navigate("/")
+      }
+    })
     
     const collectData = async () => {
       console.log(name,email,password) 
@@ -20,6 +27,8 @@ const SignUp = () =>{
       })
 
       result = await result.json()
+
+      localStorage.setItem("user",JSON.stringify(result))
       
       if(result){
         navigate("/")
